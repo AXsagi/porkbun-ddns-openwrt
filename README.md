@@ -12,8 +12,9 @@ chmod +x /etc/ddns/porkbun-ddns.sh
 vim /etc/ddns/porkbun-ddns.sh
 ```
 
-In the vim editor you must edit the following variables:
-apikey, apisec: enter the details from the API Generation page in Porkbuns website
-domain: the domain in porkbun in which you want to edit its records
-record: the specific record in that domain specified above that you want to update its records
- 
+### In the vim editor you must edit the following variables
+#### `apikey, apisec`: Enter the details from the API Generation page in Porkbuns website
+#### `domain`: The domain in porkbun in which you want to edit its records
+#### `record`: The specific record in that domain specified above that you want to update its records
+
+Many thanks to [krraaamer/porkbun-ddns.sh](https://github.com/krraaamer/porkbun-ddns.sh) for the original code
