@@ -20,14 +20,14 @@ if [ -z "$apikey" ] || [ -z "$apisec" ]; then echo "api key and secret code must
 if [ -z "$domain" ] || [ -z "$record" ]; then echo "domain and record to update must be specified" && exit; fi
 
 # ping porkbun api to get our current ip address
-ourip=$(curl -s -X POST "https://porkbun.com/api/json/v3/ping" -H "Content-Type: application/json" --data "{ \"apikey\": \"$apikey\", \"secretapikey\": \"$apisec\" }" | jq ".yourIp" | tr -d '"')
+ourip=$(curl -s -X POST "https://api.porkbun.com/api/json/v3/ping" -H "Content-Type: application/json" --data "{ \"apikey\": \"$apikey\", \"secretapikey\": \"$apisec\" }" | jq ".yourIp" | tr -d '"')
 
 if [ -z "$ourip" ]; then echo "could not get our external ip address from porkbun api -- please check internet connectivity and api credentials" && exit; fi
 
 # get current dns record
-olddns=$(curl -s -X POST "https://porkbun.com/api/json/v3/dns/retrieveByNameType/$domain/A/$record" -H "Content-Type: application/json" --data "{ \"apikey\": \"$apikey\", \"secretapikey\": \"$apisec\" }" | jq ".records[0].content" | tr -d '"')
+olddns=$(curl -s -X POST "https://api.porkbun.com/api/json/v3/dns/retrieveByNameType/$domain/A/$record" -H "Content-Type: application/json" --data "{ \"apikey\": \"$apikey\", \"secretapikey\": \"$apisec\" }" | jq ".records[0].content" | tr -d '"')
 
 # update dns record if necessary
 if [[ $olddns != $ourip ]]; then
-  curl -X POST "https://porkbun.com/api/json/v3/dns/editByNameType/$domain/A/$record" -H "Content-Type: application/json" --data "{ \"apikey\": \"$apikey\", \"secretapikey\": \"$apisec\", \"content\": \"$ourip\", \"ttl\": \"300\" }"
+  curl -X POST "https://api.porkbun.com/api/json/v3/dns/editByNameType/$domain/A/$record" -H "Content-Type: application/json" --data "{ \"apikey\": \"$apikey\", \"secretapikey\": \"$apisec\", \"content\": \"$ourip\", \"ttl\": \"300\" }"
 fi
